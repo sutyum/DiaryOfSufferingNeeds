@@ -7,4 +7,6 @@ __pycache__/
 .env
 crawler_output/
 
+public_data/
+
 !data/sources/

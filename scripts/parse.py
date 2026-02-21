@@ -1,6 +1,5 @@
 import os
 import json
-import argparse
 from pathlib import Path
 from google import genai
 from google.genai import types
@@ -121,7 +120,4 @@ RAW SCRAPED MARKDOWN (Source Hash: {filename}):
             print(f"Error parsing {filename} after retries: {e}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Use Gemini 3.0 Flash to extract strict JSON ontology from scraped Markdown.")
-    args = parser.parse_args()
-    
     parse_markdown_files()

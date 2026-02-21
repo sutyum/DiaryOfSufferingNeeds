@@ -1,53 +1,27 @@
-"use client";
 import React from 'react';
+import { getAllCases } from '@/lib/data';
+import { Activity, Database, AlertTriangle, Fingerprint, BookOpen, Clock, Globe } from 'lucide-react';
 
-// Curation Seed Data - ME/CFS & Long COVID Focus
-const mockCases = [
-  {
-    id: "case_114",
-    condition: "Myalgic Encephalomyelitis (ME/CFS)",
-    onset: "Year 3",
-    threatToPersonhood: "The Loss of Unplanned Time",
-    description: "Before people lose the ability to work or walk, they lose the ability to say 'yes' in the moment. Every action becomes a transaction against an invisible ledger.",
-    narrativeFragment: "I used to just leave the house. Now, going to the grocery store requires a three-day calculus of what my spine will tolerate and what I'll have to cancel tomorrow. The spontaneity that defines being alive is gone.",
-    compensatoryRituals: "Micro-pacing (breaking showers into 3 seated segments), sensory deprivation in dark rooms for 48 hours pre-event.",
-    sourceType: "Public Forum (Anonymized)"
-  },
-  {
-    id: "case_042",
-    condition: "Long COVID / Dysautonomia",
-    onset: "Year 5",
-    threatToPersonhood: "The Erosion of Epistemic Trust",
-    description: "Between years 2 and 4, there is a distinct shift from 'the doctors will fix this' to 'the doctors think I am crazy.' The loss is the baseline trust in institutions.",
-    narrativeFragment: "You stop bringing up the sharpest pains because if you list too many symptoms, they write 'anxiety' on your chart and the appointment is over. I now go into clinics like I'm preparing for a hostile deposition.",
-    compensatoryRituals: "Bringing binders of printed NIH research, having specific articulate friends act as 'medical proxies' because doctors listen to healthy people.",
-    sourceType: "Interview Transcript (Paraphrased)"
-  },
-  {
-    id: "case_209",
-    condition: "Undiagnosed Chronic Pain / Suspected RA",
-    onset: "Year 6",
-    threatToPersonhood: "Ambiguous Grief (The Ghost Self)",
-    description: "By year 5, a profound, unmournable grief sets in. There is no 'new normal' to adjust to, and society offers no ritual for this kind of loss.",
-    narrativeFragment: "My husband is still waiting for the woman he married to come back. I don't know how to tell him she died four years ago in a rheumatologist's waiting room. The physical pain is 7/10; the loneliness of the ghost self is 10/10.",
-    compensatoryRituals: "Aggressive masking during short social interactions followed by severe 'crash' periods masked as migraines.",
-    sourceType: "NORD Public Patient Story (Adapted)"
-  }
-];
+export default async function TheWitnessArchive () {
+  const cases = getAllCases();
 
-export default function TheWitnessArchive () {
+  // Count unique threat_to_personhood constellations
+  const constellations = new Set(cases.map(c => c.threat_to_personhood)).size;
+
   return (
-    <main style={ { padding: 'var(--space-8)', maxWidth: '1200px', margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column' } }>
+    <main style={ { padding: 'var(--space-8)', maxWidth: '1400px', margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column' } }>
 
       {/* Header Section - Solemn and Respectful */ }
       <header className="animate-fade-in" style={ { marginBottom: 'var(--space-12)', textAlign: 'center', marginTop: 'var(--space-6)' } }>
-        <div style={ { display: 'flex', justifyContent: 'center', marginBottom: '1rem' } }>
-          <div className="pulse-indicator" style={ { marginRight: '8px', marginTop: '10px' } }></div>
+        <div style={ { display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' } }>
+          <div style={ { padding: '12px', background: 'rgba(139, 92, 246, 0.05)', borderRadius: '50%', border: '1px solid rgba(139, 92, 246, 0.2)' } }>
+            <Database size={ 32 } color="var(--accent-primary)" />
+          </div>
         </div>
-        <h1 style={ { fontSize: '2.5rem', marginBottom: 'var(--space-4)', color: '#fff', fontWeight: 400, letterSpacing: '0.05em', textTransform: 'uppercase' } }>
-          The Witness Archive
+        <h1 style={ { fontSize: '3.5rem', marginBottom: 'var(--space-4)', color: '#fff', fontWeight: 300, letterSpacing: '0.08em', textTransform: 'uppercase' } }>
+          Sufferpedia Explorer
         </h1>
-        <p style={ { color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '650px', margin: '0 auto', lineHeight: '1.8' } }>
+        <p style={ { color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '750px', margin: '0 auto', lineHeight: '1.8' } }>
           Preserving the unvarnished texture of lived suffering. <br />
           We index real patient testimony—the threats to personhood, the diagnostic odysseys, the deep friction of chronic illness—so interventions can be tested against ground truth, not abstractions.
         </p>
@@ -60,10 +34,9 @@ export default function TheWitnessArchive () {
             style={ {
               width: '100%', padding: '1.2rem 1.5rem', borderRadius: 'var(--radius-sm)',
               background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color)',
-              color: 'var(--text-primary)', fontSize: '1rem', outline: 'none', transition: 'border-color 0.4s var(--ease-solemn)'
+              color: 'var(--text-primary)', fontSize: '1rem', outline: 'none', transition: 'border-color 0.4s var(--ease-solemn)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
             } }
-            onFocus={ (e) => e.target.style.borderColor = 'rgba(139, 92, 246, 0.4)' }
-            onBlur={ (e) => e.target.style.borderColor = 'var(--border-color)' }
           />
           <button className="btn btn-primary" style={ { position: 'absolute', right: '10px', top: '10px', bottom: '10px', padding: '0 1.5rem' } }>
             Query Corpus
@@ -73,65 +46,71 @@ export default function TheWitnessArchive () {
 
       {/* Corpus Density Stats */ }
       <div className="glass-panel animate-fade-in" style={ { display: 'flex', justifyContent: 'space-around', padding: 'var(--space-6)', marginBottom: 'var(--space-12)', animationDelay: '0.4s' } }>
-        <div style={ { textAlign: 'center' } }>
-          <h3 style={ { fontSize: '1.5rem', color: '#fff', fontWeight: 400 } }>8,402</h3>
+        <div style={ { textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } }>
+          <BookOpen size={ 24 } color="var(--text-tertiary)" />
+          <h3 style={ { fontSize: '1.8rem', color: '#fff', fontWeight: 400 } }>{ cases.length }</h3>
           <span className="text-meta">Indexed Testimonies</span>
         </div>
-        <div style={ { textAlign: 'center' } }>
-          <h3 style={ { fontSize: '1.5rem', color: '#fff', fontWeight: 400 } }>142</h3>
-          <span className="text-meta">Mapped Constellations</span>
+        <div style={ { textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } }>
+          <Activity size={ 24 } color="var(--text-tertiary)" />
+          <h3 style={ { fontSize: '1.8rem', color: '#fff', fontWeight: 400 } }>{ constellations }</h3>
+          <span className="text-meta">Distinct Constellations</span>
         </div>
-        <div style={ { textAlign: 'center' } }>
-          <h3 style={ { fontSize: '1.5rem', color: 'var(--text-secondary)', fontWeight: 400 } }>ME/CFS & Long COVID</h3>
-          <span className="text-meta">Active Seed Domain</span>
+        <div style={ { textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' } }>
+          <Globe size={ 24 } color="var(--text-tertiary)" />
+          <h3 style={ { fontSize: '1.8rem', color: 'var(--text-secondary)', fontWeight: 400 } }>Multiple Domains</h3>
+          <span className="text-meta">Active Web Crawlers</span>
         </div>
       </div>
 
       {/* The Archive Wall - Journey Cards */ }
-      <section style={ { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 'var(--space-8)', paddingBottom: 'var(--space-12)' } }>
-        { mockCases.map((c, i) => (
-          <article key={ c.id } className="glass-panel interactive-card animate-fade-in" style={ { padding: 'var(--space-8)', animationDelay: `${0.8 + (i * 0.3)}s`, display: 'flex', flexDirection: 'column' } }>
+      <section style={ { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))', gap: 'var(--space-8)', paddingBottom: 'var(--space-12)' } }>
+        { cases.map((c, i) => (
+          <article key={ c.id } className="glass-panel interactive-card animate-fade-in" style={ { padding: 'var(--space-8)', animationDelay: `${0.8 + (Math.min(i, 8) * 0.1)}s`, display: 'flex', flexDirection: 'column' } }>
 
             <header style={ { marginBottom: 'var(--space-6)', borderBottom: '1px solid var(--border-color)', paddingBottom: 'var(--space-4)' } }>
-              <div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' } }>
-                <span className="badge">{ c.condition }</span>
-                <span className="text-meta" style={ { color: 'var(--text-tertiary)' } }>{ c.onset }</span>
+              <div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' } }>
+                <span className="badge" style={ { background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' } }>{ c.condition }</span>
+                <span className="text-meta" style={ { color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: '4px' } }><Clock size={ 12 } /> { c.onset }</span>
               </div>
-              <h2 style={ { fontSize: '1.2rem', margin: '0 0 8px 0', color: '#fff', fontWeight: 400 } }>
+              <h2 style={ { fontSize: '1.4rem', margin: '0 0 12px 0', color: '#fff', fontWeight: 300, letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: '8px' } }>
+                <Fingerprint size={ 18 } color="var(--text-tertiary)" />
                 Subject { c.id.split('_')[1] }
               </h2>
-              <div style={ { display: 'flex', alignItems: 'center', gap: '8px' } }>
-                <div className="pulse-indicator" style={ { backgroundColor: 'var(--accent-secondary)', width: '4px', height: '4px', boxShadow: 'none', animation: 'none' } }></div>
-                <h3 style={ { fontSize: '0.9rem', color: 'var(--accent-secondary)', fontWeight: 400, letterSpacing: '0.02em', margin: 0 } }>
-                  { c.threatToPersonhood }
+              <div style={ { display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', background: 'rgba(139, 92, 246, 0.05)', padding: '8px 12px', borderRadius: '4px', borderLeft: '2px solid var(--accent-primary)' } }>
+                <h3 style={ { fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 500, letterSpacing: '0.02em', margin: 0, lineHeight: '1.4' } }>
+                  { c.threat_to_personhood }
                 </h3>
               </div>
             </header>
 
             <div style={ { display: 'flex', flexDirection: 'column', gap: 'var(--space-6)', flexGrow: 1 } }>
               <div>
-                <p style={ { fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '12px' } }>
+                <p style={ { fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '16px' } }>
                   { c.description }
                 </p>
-                <div className="text-quote">
-                  "{ c.narrativeFragment }"
+                <div className="text-quote" style={ { fontSize: '1.1rem', fontStyle: 'italic', color: '#e2e8f0', letterSpacing: '0.01em', background: 'rgba(255,255,255,0.02)', padding: '16px', borderRadius: '0 8px 8px 0' } }>
+                  "{ c.narrative_fragment }"
                 </div>
               </div>
 
               <div style={ { marginTop: 'auto', paddingTop: 'var(--space-4)' } }>
-                <h4 className="text-meta" style={ { marginBottom: '8px' } }>Compensatory Rituals</h4>
-                <p style={ { fontSize: '0.9rem', color: '#94a3b8' } }>
-                  { c.compensatoryRituals }
+                <h4 className="text-meta" style={ { marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-secondary)' } }>
+                  <AlertTriangle size={ 14 } />
+                  Compensatory Rituals
+                </h4>
+                <p style={ { fontSize: '0.95rem', color: '#94a3b8', lineHeight: '1.6' } }>
+                  { c.compensatory_rituals }
                 </p>
               </div>
             </div>
 
             <footer style={ { marginTop: 'var(--space-6)', paddingTop: 'var(--space-4)', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' } }>
-              <span style={ { fontSize: '0.75rem', color: 'var(--text-tertiary)' } }>
-                Source: { c.sourceType }
+              <span style={ { fontSize: '0.75rem', color: 'var(--text-tertiary)', fontFamily: 'monospace' } }>
+                HASH: { c.source_hash.substring(0, 12) }
               </span>
-              <button className="btn" style={ { padding: '4px 12px', fontSize: '0.8rem', background: 'transparent', color: 'var(--text-secondary)' } }>
-                Expand Node &rarr;
+              <button className="btn" style={ { padding: '6px 16px', fontSize: '0.85rem', background: 'rgba(255,255,255,0.03)', color: 'var(--text-primary)', border: '1px solid rgba(255,255,255,0.1)' } }>
+                View Node Details
               </button>
             </footer>
 

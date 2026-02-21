@@ -8,4 +8,5 @@ dependencies = [
     "firecrawl-py>=4.16.0",
     "google-genai==0.3.0",
     "pydantic==2.10.4",
+    "tenacity",
 ]
