@@ -1,0 +1,112 @@
+// Sufferpedia Production Schema
+// Database: PostgreSQL with pgvector (hosted on ubucloud)
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ---------------------------------------------------------
+// Core: Raw Data Layer (The Absolute Ground Truth)
+// ---------------------------------------------------------
+
+model SourceDocument {
+  id          String   @id @default(uuid())
+  url         String   @unique
+  platform    String   // e.g., "Reddit", "PatientForum", "WebMD Community"
+  authorHash  String?  // Anonymized author identifier to link multiple posts by the same person
+  rawText     String
+  scrapedAt   DateTime @default(now())
+
+  // A single raw document might yield multiple extracted cases if it discusses multiple people,
+  // or a single case might be built from a mega-thread.
+  cases       CaseStory[]
+}
+
+// ---------------------------------------------------------
+// Core: The Sufferpedia Layer (Wikipedia-style Ontology)
+// ---------------------------------------------------------
+
+model CaseStory {
+  id                           String   @id @default(uuid())
+  title                        String
+  condition                    String
+  
+  // The Ontology
+  physicalFrictions            String   // Granular painful tasks
+  emotionalToll                String   // Mental weight/isolation
+  journeyTimeline              String   // History of failures/diagnoses
+  compensatoryBehaviorsAndHacks String  // Workarounds demonstrating failed products
+  
+  // Living Metadata / Wikipedia style tagging (JSON allows infinite extendibility)
+  metadata                     Json?    // e.g. { ageRange: "20-30", comorbidities: ["POTS"] }
+
+  // Vector Search Embedding (Placeholder for pgvector column)
+  // embedding Unsupported("vector(1536)")?
+
+  createdAt                    DateTime @default(now())
+  updatedAt                    DateTime @updatedAt
+
+  sourceDocumentId             String
+  sourceDocument               SourceDocument @relation(fields: [sourceDocumentId], references: [id])
+
+  // Wikipedia-style Edit History
+  revisions                    CaseRevision[]
+  
+  // The Agentic Simulations run against this case
+  simulations                  AgentSimulation[]
+
+  @@index([condition])
+}
+
+// Wikipedia-style edit history for when agents or humans enrich a case over time.
+model CaseRevision {
+  id              String   @id @default(uuid())
+  caseStoryId     String
+  caseStory       CaseStory @relation(fields: [caseStoryId], references: [id], onDelete: Cascade)
+  
+  editorId        String   // "System/Agent" or a human researcher's UID
+  editSummary     String   // E.g., "Extracted new compensatory behavior from follow-up post"
+  
+  previousData    Json     // The state of the CaseStory before this edit
+  createdAt       DateTime @default(now())
+}
+
+// ---------------------------------------------------------
+// Agentic Simulation Engine Layer
+// ---------------------------------------------------------
+
+// A concept/product pitched by a builder to the Sufferpedia simulator
+model InterventionPitch {
+  id              String   @id @default(uuid())
+  builderId       String   // Future auth integration
+  title           String
+  description     String   // The full text of the solution pitched
+  createdAt       DateTime @default(now())
+
+  simulations     AgentSimulation[]
+}
+
+// The result of a specific Patient Agent reacting to a specific pitch
+model AgentSimulation {
+  id                    String   @id @default(uuid())
+  
+  interventionPitchId   String
+  pitch                 InterventionPitch @relation(fields: [interventionPitchId], references: [id], onDelete: Cascade)
+  
+  caseStoryId           String
+  caseStory             CaseStory @relation(fields: [caseStoryId], references: [id], onDelete: Cascade)
+
+  // How the Agent Embodied by the CaseStory reacted
+  agentReactionText     String
+  rejectionReason       String?  // If the product fails, the specific reason based on the Case
+  acceptanceScore       Int?     // 1-10 rating from the Agent
+
+  createdAt             DateTime @default(now())
+
+  @@unique([interventionPitchId, caseStoryId]) // Ensure we don't simulate the exact same pitch on the same case twice redundantly
+}
