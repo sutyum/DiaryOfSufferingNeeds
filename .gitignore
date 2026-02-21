@@ -5,3 +5,6 @@ node_modules/
 .next/
 __pycache__/
 .env
+crawler_output/
+
+!data/sources/
