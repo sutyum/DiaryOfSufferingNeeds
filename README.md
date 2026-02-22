@@ -14,14 +14,14 @@ The system is split into two primary domains:
 The data pipeline runs in two sequential stages:
 
 #### Stage 1: The Crawler (`1_crawl.py`)
-Discovers deep forum thread URLs and systematically downloads them into clean Markdown files using Firecrawl. The crawler explicitly uses a concurrent `ThreadPoolExecutor` backed by an SQLite Key-Value store running in WAL-mode to prevent duplication and gracefully handle retries on a massive scale.
+Discovers deep forum thread URLs and systematically downloads them into Markdown using Firecrawl. The crawler uses a concurrent `ThreadPoolExecutor` backed by SQLite (WAL mode) to prevent duplication and handle retries.
 ```bash
 export FIRECRAWL_API_KEY="your_api_key_here"
 uv run python scripts/1_crawl.py
 ```
 
 #### Stage 2: The Parser (`2_parse.py`)
-Reads the raw `.md` files and uses Gemini to ontologically extract structured metadata, mapping complex medical narratives into `public_data/processed/` JSON arrays while enforcing strict real-time privacy paraphrasing rules.
+Reads raw `.md` files and uses Gemini to extract structured metadata into `public_data/processed/` JSON.
 ```bash
 export GEMINI_API_KEY="your_api_key_here"
 uv run python scripts/2_parse.py
@@ -33,11 +33,27 @@ The Next.js Explorer is built primarily with React Server Components. It parses 
 
 ```bash
 cd web
+npm install
 npm run dev
+```
+
+Node.js `>=20.9.0` is required for Next.js 16 builds.
+
+## Quality Checks
+Python checks from repo root:
+```bash
+uv run python -m compileall scripts tests
+uv run python -m pytest -q
+```
+
+Frontend checks from `web/`:
+```bash
+npm run lint
+npm run build
 ```
 
 ## Technologies Used
 - **Crawling/Ingestion**: Firecrawl SDK, SQLite3, `concurrent.futures`, Tenacity
 - **LLM Parsing**: `google-genai`, Pydantic (Strict Schema definitions)
-- **Frontend**: Next.js (App Router), React, TailwindCSS, Lucide Icons
+- **Frontend**: Next.js (App Router), React, Lucide Icons
 - **Environment Management**: `uv` (Python), `npm` (Node)

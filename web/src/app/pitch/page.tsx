@@ -47,14 +47,14 @@ export default function PitchSimulation () {
           {/* Reaction 1 */ }
           <div className="glass-panel" style={ { padding: 'var(--space-6)', borderLeft: '4px solid var(--error)' } }>
             <div style={ { display: 'flex', justifyContent: 'space-between', marginBottom: '12px' } }>
-              <strong style={ { color: '#fff' } }>Patient Agent (Case #45091 - RA & Sjogren's)</strong>
+              <strong style={ { color: '#fff' } }>Patient Agent (Case #45091 - RA & Sjogren&apos;s)</strong>
               <span style={ { color: 'var(--error)', fontWeight: 600 } }>Rejected (2/10)</span>
             </div>
             <p style={ { color: 'var(--text-secondary)', fontStyle: 'italic', marginBottom: '12px' } }>
-              "Your voice-activated deadbolt solves my morning wrist stiffness entirely, but you failed to consider my secondary conditions."
+              &quot;Your voice-activated deadbolt solves my morning wrist stiffness entirely, but you failed to consider my secondary conditions.&quot;
             </p>
             <div style={ { background: 'rgba(239, 68, 68, 0.05)', padding: '12px', borderRadius: 'var(--radius-sm)' } }>
-              <strong>Critique based on case file:</strong> "I have severe dry throat and voice loss from Sjogren's. When I wake up, sometimes I cannot speak above a whisper for an hour. If there's an emergency, I would be locked inside my own home unable to voice-activate the door."
+              <strong>Critique based on case file:</strong> &quot;I have severe dry throat and voice loss from Sjogren&apos;s. When I wake up, sometimes I cannot speak above a whisper for an hour. If there&apos;s an emergency, I would be locked inside my own home unable to voice-activate the door.&quot;
             </div>
           </div>
 
@@ -65,10 +65,10 @@ export default function PitchSimulation () {
               <span style={ { color: 'var(--success)', fontWeight: 600 } }>Accepted (9/10)</span>
             </div>
             <p style={ { color: 'var(--text-secondary)', fontStyle: 'italic', marginBottom: '12px' } }>
-              "This is exactly what I need. The physical friction of turning keys is my biggest barrier to leaving the house independently."
+              &quot;This is exactly what I need. The physical friction of turning keys is my biggest barrier to leaving the house independently.&quot;
             </p>
             <div style={ { background: 'rgba(16, 185, 129, 0.05)', padding: '12px', borderRadius: 'var(--radius-sm)' } }>
-              <strong>Critique based on case file:</strong> "It perfectly addresses my lack of grip strength, and unlike Case #45091, I have no vocal comorbidities. I would buy this immediately."
+              <strong>Critique based on case file:</strong> &quot;It perfectly addresses my lack of grip strength, and unlike Case #45091, I have no vocal comorbidities. I would buy this immediately.&quot;
             </div>
           </div>
         </div>

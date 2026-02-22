@@ -10,3 +10,8 @@ dependencies = [
     "pydantic==2.10.4",
     "tenacity",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]

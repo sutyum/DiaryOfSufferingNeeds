@@ -12,49 +12,85 @@ export interface WitnessCase {
   source_hash: string;
 }
 
+type JsonRecord = Record<string, unknown>;
+
+function isJsonRecord (value: unknown): value is JsonRecord {
+  return typeof value === 'object' && value !== null;
+}
+
+function getStringOrFallback (value: unknown, fallback: string): string {
+  return typeof value === 'string' && value.trim() ? value : fallback;
+}
+
+function resolveDataDir (): string | null {
+  const candidates = [
+    path.join(process.cwd(), '..', 'public_data', 'processed'),
+    path.join(process.cwd(), 'public_data', 'processed'),
+  ];
+
+  for (const candidate of candidates)
+  {
+    if (fs.existsSync(candidate))
+    {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
 export function getAllCases (): WitnessCase[] {
-  // Go up from web/app/lib to the root public_data/processed directory
-  const dataDir = path.join(process.cwd(), '..', 'public_data', 'processed');
+  const dataDir = resolveDataDir();
   const cases: WitnessCase[] = [];
+
+  if (!dataDir)
+  {
+    console.error('Could not find public_data/processed directory from current working directory.');
+    return cases;
+  }
 
   try
   {
-    const files = fs.readdirSync(dataDir);
+    const files = fs.readdirSync(dataDir).filter(file => file.endsWith('.json')).sort();
 
     for (const file of files)
     {
-      if (file.endsWith('.json'))
+      const filePath = path.join(dataDir, file);
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      try
       {
-        const filePath = path.join(dataDir, file);
-        const fileContent = fs.readFileSync(filePath, 'utf8');
-        try
+        const parsed: unknown = JSON.parse(fileContent);
+        if (!isJsonRecord(parsed) || !Array.isArray(parsed.cases))
         {
-          const parsed = JSON.parse(fileContent);
-          if (parsed.cases && Array.isArray(parsed.cases))
-          {
-            // Map the parsed JSON cases into our Typescript interface
-            parsed.cases.forEach((c: any, index: number) => {
-              cases.push({
-                id: `${c.source_hash}_${index}`,
-                condition: c.condition || 'Unknown',
-                onset: c.onset || 'Unknown',
-                threat_to_personhood: c.threat_to_personhood || 'Unknown',
-                description: c.description || '',
-                narrative_fragment: c.narrative_fragment || '',
-                compensatory_rituals: c.compensatory_rituals || '',
-                source_hash: c.source_hash || 'Unknown',
-              });
-            });
-          }
-        } catch (e)
-        {
-          console.error(`Error parsing JSON in ${file}:`, e);
+          continue;
         }
+
+        parsed.cases.forEach((entry, index) => {
+          if (!isJsonRecord(entry))
+          {
+            return;
+          }
+
+          const sourceHash = getStringOrFallback(entry.source_hash, file.replace(/\.json$/, ''));
+          cases.push({
+            id: `${sourceHash}_${index}`,
+            condition: getStringOrFallback(entry.condition, 'Unknown'),
+            onset: getStringOrFallback(entry.onset, 'Unknown'),
+            threat_to_personhood: getStringOrFallback(entry.threat_to_personhood, 'Unknown'),
+            description: getStringOrFallback(entry.description, ''),
+            narrative_fragment: getStringOrFallback(entry.narrative_fragment, ''),
+            compensatory_rituals: getStringOrFallback(entry.compensatory_rituals, ''),
+            source_hash: sourceHash,
+          });
+        });
+      } catch (e)
+      {
+        console.error(`Error parsing JSON in ${file}:`, e);
       }
     }
   } catch (e)
   {
-    console.error("Error reading public_data/processed directory:", e);
+    console.error('Error reading public_data/processed directory:', e);
   }
 
   return cases;

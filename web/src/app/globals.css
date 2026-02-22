@@ -172,7 +172,7 @@ h6 {
 }
 
 .constellation-node {
-  animation: pulse-node 8s inifinite ease-in-out;
+  animation: pulse-node 8s infinite ease-in-out;
   /* Very slow 8-second breathing pulse */
 }
 

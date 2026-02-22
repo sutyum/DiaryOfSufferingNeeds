@@ -2,7 +2,7 @@ import React from 'react';
 import { getAllCases } from '@/lib/data';
 import { Activity, Database, AlertTriangle, Fingerprint, BookOpen, Clock, Globe } from 'lucide-react';
 
-export default async function TheWitnessArchive () {
+export default function TheWitnessArchive () {
   const cases = getAllCases();
 
   // Count unique threat_to_personhood constellations
@@ -65,6 +65,14 @@ export default async function TheWitnessArchive () {
 
       {/* The Archive Wall - Journey Cards */ }
       <section style={ { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))', gap: 'var(--space-8)', paddingBottom: 'var(--space-12)' } }>
+        { cases.length === 0 && (
+          <article className="glass-panel" style={ { padding: 'var(--space-8)' } }>
+            <h2 style={ { fontSize: '1.2rem', marginBottom: '8px' } }>No testimonies indexed yet</h2>
+            <p style={ { color: 'var(--text-secondary)', lineHeight: '1.7' } }>
+              Run the crawl and parse pipeline to generate JSON files in <code>public_data/processed</code>.
+            </p>
+          </article>
+        ) }
         { cases.map((c, i) => (
           <article key={ c.id } className="glass-panel interactive-card animate-fade-in" style={ { padding: 'var(--space-8)', animationDelay: `${0.8 + (Math.min(i, 8) * 0.1)}s`, display: 'flex', flexDirection: 'column' } }>
 
@@ -90,7 +98,7 @@ export default async function TheWitnessArchive () {
                   { c.description }
                 </p>
                 <div className="text-quote" style={ { fontSize: '1.1rem', fontStyle: 'italic', color: '#e2e8f0', letterSpacing: '0.01em', background: 'rgba(255,255,255,0.02)', padding: '16px', borderRadius: '0 8px 8px 0' } }>
-                  "{ c.narrative_fragment }"
+                  &quot;{ c.narrative_fragment }&quot;
                 </div>
               </div>
 
