@@ -390,6 +390,33 @@ def test_source_map_delay_seconds_prefers_known_forum_hosts() -> None:
     delay = CRAWL_MODULE._source_map_delay_seconds(source)
     assert delay <= 0.75
 
+def test_source_map_budget_clamps_when_diversity_mode_enabled() -> None:
+    old_mode = CRAWL_MODULE.DIVERSITY_MODE_ENABLED
+    old_cap = CRAWL_MODULE.DIVERSITY_SOURCE_URL_CAP
+    try:
+        CRAWL_MODULE.DIVERSITY_MODE_ENABLED = True
+        CRAWL_MODULE.DIVERSITY_SOURCE_URL_CAP = 40
+        source = {"url": "https://example.org/forum", "max_urls": 120}
+        assert CRAWL_MODULE._source_map_budget(source) == 40
+    finally:
+        CRAWL_MODULE.DIVERSITY_MODE_ENABLED = old_mode
+        CRAWL_MODULE.DIVERSITY_SOURCE_URL_CAP = old_cap
+
+def test_select_diverse_pending_urls_round_robins_sources() -> None:
+    rows = [
+        ("https://example.org/a1", "source-a", 20, "2026-01-01"),
+        ("https://example.org/a2", "source-a", 19, "2026-01-02"),
+        ("https://example.org/b1", "source-b", 18, "2026-01-03"),
+        ("https://example.org/b2", "source-b", 17, "2026-01-04"),
+    ]
+    selected = CRAWL_MODULE._select_diverse_pending_urls(rows, chunk_size=4)
+    assert selected == [
+        "https://example.org/a1",
+        "https://example.org/b1",
+        "https://example.org/a2",
+        "https://example.org/b2",
+    ]
+
 def test_load_source_registry_reads_disease_list_seed_urls(tmp_path: Path) -> None:
     registry_path = tmp_path / "source_registry.json"
     payload = {

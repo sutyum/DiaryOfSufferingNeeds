@@ -136,6 +136,69 @@ DEFAULT_CONDITION_TARGETS: Dict[str, Dict[str, Any]] = {
         "url_keywords": ["diabetes", "glucose", "endocrine"],
         "suffering_axes": ["monitoring burden", "diet constraints", "complication anxiety"],
     },
+    "icu_critical_care": {
+        "label": "ICU / Critical Care",
+        "target_completed_pages": 90,
+        "target_cases": 300,
+        "seed_queries": ["icu survivor stories", "critical care patient experiences"],
+        "seed_domains": ["icusteps.org", "www.sepsis.org", "community.patient.info"],
+        "url_keywords": ["icu", "critical-care", "intensive-care", "ventilator", "post-icu"],
+        "suffering_axes": ["mechanical ventilation", "delirium", "post-icu syndrome", "caregiver strain"],
+    },
+    "accident_injury": {
+        "label": "Accidents & Injuries",
+        "target_completed_pages": 110,
+        "target_cases": 360,
+        "seed_queries": ["accident survivor forum", "serious injury recovery stories"],
+        "seed_domains": ["community.patient.info", "www.traumasurvivorsnetwork.org", "www.brainline.org"],
+        "url_keywords": ["accident", "injury", "injuries", "recovery", "survivor"],
+        "suffering_axes": ["sudden disability", "surgery burden", "rehabilitation", "chronic pain risk"],
+    },
+    "physical_trauma": {
+        "label": "Physical Trauma",
+        "target_completed_pages": 100,
+        "target_cases": 330,
+        "seed_queries": ["physical trauma survivor stories", "trauma surgery recovery experiences"],
+        "seed_domains": ["www.traumasurvivorsnetwork.org", "www.brainline.org", "community.patient.info"],
+        "url_keywords": ["trauma", "polytrauma", "fracture", "critical-injury", "survivor"],
+        "suffering_axes": ["acute pain", "hospitalization", "functional loss", "rehab burden"],
+    },
+    "cancer_severe": {
+        "label": "Cancer (Severe)",
+        "target_completed_pages": 170,
+        "target_cases": 560,
+        "seed_queries": ["cancer survivor forum diagnosis treatment", "advanced cancer patient stories"],
+        "seed_domains": ["csn.cancer.org", "community.patient.info"],
+        "url_keywords": ["cancer", "oncology", "tumor", "metastatic", "chemotherapy", "radiation"],
+        "suffering_axes": ["diagnosis shock", "treatment toxicity", "progression fear", "financial burden"],
+    },
+    "coma_brain_injury": {
+        "label": "Coma / Brain Injury",
+        "target_completed_pages": 100,
+        "target_cases": 320,
+        "seed_queries": ["coma survivor story", "brain injury recovery forum"],
+        "seed_domains": ["www.brainline.org", "community.patient.info", "www.traumasurvivorsnetwork.org"],
+        "url_keywords": ["coma", "brain-injury", "tbi", "stroke", "neurocritical", "unconscious"],
+        "suffering_axes": ["memory loss", "cognitive recovery", "speech and mobility rehab", "caregiver burden"],
+    },
+    "chronic_infection": {
+        "label": "Chronic Infection",
+        "target_completed_pages": 110,
+        "target_cases": 360,
+        "seed_queries": ["chronic infection patient stories forum", "infectious disease long recovery experiences"],
+        "seed_domains": ["community.patient.info", "www.sepsis.org"],
+        "url_keywords": ["infection", "infectious", "post-infectious", "uti", "fungal", "sequelae"],
+        "suffering_axes": ["recurrent infection", "antibiotic burden", "fatigue", "relapse fear"],
+    },
+    "sepsis": {
+        "label": "Sepsis",
+        "target_completed_pages": 120,
+        "target_cases": 400,
+        "seed_queries": ["sepsis survivor stories", "septic shock patient experience"],
+        "seed_domains": ["www.sepsis.org", "community.patient.info"],
+        "url_keywords": ["sepsis", "septic", "septic-shock", "icu", "critical-care", "organ-failure"],
+        "suffering_axes": ["organ failure", "icu stays", "long recovery", "ptsd risk"],
+    },
 }
 
 DEFAULT_SOURCES = [
@@ -435,11 +498,170 @@ DEFAULT_SOURCES = [
         "min_score": 8,
         "max_urls": 200,
     },
+    {
+        "name": "Patient.info - Accidents and Injuries",
+        "url": "https://community.patient.info/tag/accidents-and-injuries/296",
+        "queries": ["accident", "injury", "recovery"],
+        "allow_tokens": ["/t/", "accident", "injur", "recovery", "trauma"],
+        "prefer_tokens": ["/t/"],
+        "deny_tokens": ["/tag/", "/tags", "/search", "/profile", "/messages"],
+        "hard_deny_tokens": ["/profile", "/messages", "/signin", "/register"],
+        "required_tokens": ["/t/"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["accident_injury", "physical_trauma"],
+        "min_score": 9,
+        "max_urls": 160,
+    },
+    {
+        "name": "Patient.info - Stroke and TIA",
+        "url": "https://community.patient.info/tag/stroke-and-tia/295",
+        "queries": ["stroke", "tia", "recovery"],
+        "allow_tokens": ["/t/", "stroke", "tia", "brain", "recovery"],
+        "prefer_tokens": ["/t/"],
+        "deny_tokens": ["/tag/", "/tags", "/search", "/profile", "/messages"],
+        "hard_deny_tokens": ["/profile", "/messages", "/signin", "/register"],
+        "required_tokens": ["/t/"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["coma_brain_injury", "neurological"],
+        "min_score": 9,
+        "max_urls": 160,
+    },
+    {
+        "name": "Patient.info - Cancer",
+        "url": "https://community.patient.info/tag/375",
+        "queries": ["cancer", "treatment", "survivor"],
+        "allow_tokens": ["/t/", "cancer", "tumor", "oncology", "chemo"],
+        "prefer_tokens": ["/t/"],
+        "deny_tokens": ["/tag/", "/tags", "/search", "/profile", "/messages"],
+        "hard_deny_tokens": ["/profile", "/messages", "/signin", "/register"],
+        "required_tokens": ["/t/"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["cancer_severe"],
+        "min_score": 9,
+        "max_urls": 180,
+    },
+    {
+        "name": "Patient.info - Infectious Disease",
+        "url": "https://community.patient.info/tag/infectious-disease/473",
+        "queries": ["infectious disease", "infection", "sepsis"],
+        "allow_tokens": ["/t/", "infection", "infectious", "sepsis", "recovery"],
+        "prefer_tokens": ["/t/"],
+        "deny_tokens": ["/tag/", "/tags", "/search", "/profile", "/messages"],
+        "hard_deny_tokens": ["/profile", "/messages", "/signin", "/register"],
+        "required_tokens": ["/t/"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["chronic_infection", "sepsis"],
+        "min_score": 9,
+        "max_urls": 180,
+    },
+    {
+        "name": "Patient.info - Fungal and Yeast Infections",
+        "url": "https://community.patient.info/tag/469",
+        "queries": ["fungal infection", "yeast infection", "recurrent infection"],
+        "allow_tokens": ["/t/", "fungal", "yeast", "infection", "recurrent"],
+        "prefer_tokens": ["/t/"],
+        "deny_tokens": ["/tag/", "/tags", "/search", "/profile", "/messages"],
+        "hard_deny_tokens": ["/profile", "/messages", "/signin", "/register"],
+        "required_tokens": ["/t/"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["chronic_infection"],
+        "min_score": 9,
+        "max_urls": 140,
+    },
+    {
+        "name": "Cancer Survivors Network - Categories",
+        "url": "https://csn.cancer.org/categories",
+        "queries": ["discussion", "survivor", "treatment"],
+        "allow_tokens": ["/discussion/", "cancer", "survivor", "treatment", "diagnosis"],
+        "prefer_tokens": ["/discussion/"],
+        "deny_tokens": ["/profile", "/signin", "/register", "/entry/", "/vanilla/"],
+        "hard_deny_tokens": ["/profile", "/entry/", "/vanilla/"],
+        "required_tokens": ["/discussion/"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["cancer_severe"],
+        "min_score": 10,
+        "max_urls": 220,
+    },
+    {
+        "name": "Sepsis Alliance - Sepsis Survivors",
+        "url": "https://www.sepsis.org/education/patients-family/sepsis-survivors/",
+        "queries": ["sepsis survivor", "septic shock", "faces"],
+        "allow_tokens": ["/faces/", "sepsis", "survivor", "septic", "patient"],
+        "prefer_tokens": ["/faces/"],
+        "deny_tokens": ["wp-json", "/events", "/donate", "/contact", "/about-us"],
+        "hard_deny_tokens": ["wp-json", "/events", "/donate"],
+        "condition_tags": ["sepsis", "icu_critical_care", "chronic_infection"],
+        "min_score": 9,
+        "max_urls": 180,
+    },
+    {
+        "name": "Sepsis Alliance - Faces of Sepsis",
+        "url": "https://www.sepsis.org/education/patients-family/faces-of-sepsis/",
+        "queries": ["faces", "survivor", "sepsis"],
+        "allow_tokens": ["/faces/", "faces-of-sepsis", "sepsis", "survivor"],
+        "prefer_tokens": ["/faces/"],
+        "deny_tokens": ["wp-json", "/events", "/donate", "/contact", "/about-us"],
+        "hard_deny_tokens": ["wp-json", "/events", "/donate"],
+        "condition_tags": ["sepsis", "icu_critical_care"],
+        "min_score": 9,
+        "max_urls": 180,
+    },
+    {
+        "name": "Trauma Survivors Network - Survivor Stories",
+        "url": "https://www.traumasurvivorsnetwork.org/our-blog/",
+        "queries": ["survivor story", "recovery", "trauma"],
+        "allow_tokens": ["our-blog", "story", "survivor", "trauma", "recovery"],
+        "prefer_tokens": ["-story"],
+        "deny_tokens": ["wp-content", "wp-json", "/feed", "/comments", "/search", "/donate"],
+        "hard_deny_tokens": ["wp-content", "wp-json", "/feed", "/comments", "/search"],
+        "required_tokens": ["-story"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["physical_trauma", "accident_injury", "icu_critical_care"],
+        "min_score": 9,
+        "max_urls": 180,
+    },
+    {
+        "name": "BrainLine - Personal Stories",
+        "url": "https://www.brainline.org/personal-stories",
+        "queries": ["brain injury stories", "tbi recovery", "coma"],
+        "allow_tokens": ["/story/", "/blog/", "brain-injury", "tbi", "coma", "personal"],
+        "prefer_tokens": ["/story/", "/blog/"],
+        "deny_tokens": ["/sites/default/files/", "/contact-us", "/search", "/treatment", "/node/"],
+        "hard_deny_tokens": ["/sites/default/files/", "/contact-us", "/search", "/node/"],
+        "require_story_like_urls": True,
+        "allow_seed_fallback": False,
+        "condition_tags": ["coma_brain_injury", "physical_trauma", "accident_injury"],
+        "min_score": 9,
+        "max_urls": 160,
+    },
+    {
+        "name": "ICUsteps - ICU Experiences",
+        "url": "https://icusteps.org/information/icu-experiences",
+        "queries": ["icu experiences", "critical care recovery", "patient experience"],
+        "allow_tokens": ["icu-experiences", "experience", "intensive-care", "critical", "recovery"],
+        "prefer_tokens": ["icu-experiences", "experience"],
+        "deny_tokens": ["healthunlocked.com", "/donate", "/shop", "/events", "/news"],
+        "hard_deny_tokens": ["healthunlocked.com", "/donate", "/shop"],
+        "condition_tags": ["icu_critical_care", "sepsis"],
+        "min_score": 8,
+        "max_urls": 140,
+    },
 ]
 
 DEFAULT_DISEASE_LIST_SEED_URLS = [
     "https://www.healingwell.com/conditions/",
     "https://community.patient.info/tags",
+    "https://csn.cancer.org/categories",
+    "https://www.sepsis.org/education/patients-family/",
+    "https://www.traumasurvivorsnetwork.org/our-blog/",
+    "https://www.brainline.org/personal-stories",
 ]
 
 CONDITION_TARGETS: Dict[str, Dict[str, Any]] = json.loads(json.dumps(DEFAULT_CONDITION_TARGETS))
@@ -477,6 +699,11 @@ DISCOVERY_HTTP_TIMEOUT_SECONDS = float(os.environ.get("CRAWL_DISCOVERY_HTTP_TIME
 DISCOVERY_MAX_SEED_HOSTS_PER_CONDITION = int(os.environ.get("CRAWL_DISCOVERY_MAX_SEED_HOSTS_PER_CONDITION", "6"))
 DISCOVERY_SITEMAP_MAX_XMLS_PER_DOMAIN = int(os.environ.get("CRAWL_DISCOVERY_SITEMAP_MAX_XMLS_PER_DOMAIN", "8"))
 DISCOVERY_MIN_CANDIDATE_SCORE = int(os.environ.get("CRAWL_DISCOVERY_MIN_CANDIDATE_SCORE", "7"))
+DIVERSITY_MODE_ENABLED = os.environ.get("CRAWL_DIVERSITY_MODE", "1").lower() not in {"0", "false", "no"}
+DIVERSITY_SOURCE_URL_CAP = int(os.environ.get("CRAWL_DIVERSITY_SOURCE_URL_CAP", "50"))
+DIVERSITY_SPREAD_SOURCES = os.environ.get("CRAWL_DIVERSITY_SPREAD_SOURCES", "1").lower() not in {"0", "false", "no"}
+SCRAPE_DIVERSITY_ENABLED = os.environ.get("CRAWL_SCRAPE_DIVERSITY_ENABLED", "1").lower() not in {"0", "false", "no"}
+SCRAPE_DIVERSITY_LOOKAHEAD_MULTIPLIER = int(os.environ.get("CRAWL_SCRAPE_DIVERSITY_LOOKAHEAD_MULTIPLIER", "12"))
 PARSER_CONTINUOUS_ENABLED = os.environ.get("CRAWL_RUN_PARSER_CONTINUOUS", "1").lower() not in {"0", "false", "no"}
 PARSER_MIN_INTERVAL_SECONDS = int(os.environ.get("CRAWL_PARSER_MIN_INTERVAL_SECONDS", "120"))
 _LAST_PARSER_RUN_TS = 0.0
@@ -500,6 +727,24 @@ HIGH_SIGNAL_URL_TOKENS = (
     "chronic-pain",
     "fibromyalgia",
     "dysautonomia",
+    "discussion",
+    "sepsis",
+    "septic",
+    "icu",
+    "critical-care",
+    "intensive-care",
+    "trauma",
+    "accident",
+    "injury",
+    "cancer",
+    "oncology",
+    "metastatic",
+    "coma",
+    "brain-injury",
+    "tbi",
+    "infectious",
+    "infection",
+    "stroke",
 )
 
 LOW_SIGNAL_URL_TOKENS = (
@@ -790,6 +1035,8 @@ def _is_story_like_url(url: str, source: Dict[str, Any]) -> bool:
         "/thread/",
         "/topic/",
         "/topics/",
+        "/discussion/",
+        "/discussions/",
         "/story/",
         "/stories/",
         "/journey/",
@@ -1053,6 +1300,12 @@ def _source_map_delay_seconds(source: Dict[str, Any]) -> float:
             "healingwell.com",
             "forums.phoenixrising.me",
             "survivingantidepressants.org",
+            "patient.info",
+            "csn.cancer.org",
+            "sepsis.org",
+            "traumasurvivorsnetwork.org",
+            "brainline.org",
+            "icusteps.org",
         )
     ):
         return min(MAP_DELAY_SECONDS, 0.75)
@@ -1430,6 +1683,38 @@ def add_urls_to_db(urls: Sequence[Any], source_name: str) -> Tuple[int, int]:
     conn.close()
     return added_count, updated_priority_count
 
+def _select_diverse_pending_urls(
+    rows: Sequence[Tuple[str, str, int, str]],
+    chunk_size: int,
+) -> List[str]:
+    if chunk_size <= 0:
+        return []
+
+    queues: Dict[str, List[str]] = {}
+    source_order: List[str] = []
+    for url, source_name, _priority, _discovered_at in rows:
+        source_key = source_name or "__unknown_source__"
+        if source_key not in queues:
+            queues[source_key] = []
+            source_order.append(source_key)
+        queues[source_key].append(url)
+
+    selected: List[str] = []
+    active_sources = list(source_order)
+    while active_sources and len(selected) < chunk_size:
+        next_sources: List[str] = []
+        for source_key in active_sources:
+            queue = queues.get(source_key, [])
+            if not queue:
+                continue
+            selected.append(queue.pop(0))
+            if len(selected) >= chunk_size:
+                break
+            if queue:
+                next_sources.append(source_key)
+        active_sources = next_sources
+    return selected
+
 def get_pending_chunk(chunk_size=100):
     """
     Fetch a chunk of PENDING URLs to scrape.
@@ -1443,15 +1728,23 @@ def get_pending_chunk(chunk_size=100):
     try:
         conn.execute('BEGIN IMMEDIATE') # Lock for claiming to avoid race conditions
         transaction_started = True
+        lookahead_limit = (
+            max(chunk_size, chunk_size * max(1, SCRAPE_DIVERSITY_LOOKAHEAD_MULTIPLIER))
+            if SCRAPE_DIVERSITY_ENABLED
+            else chunk_size
+        )
         cursor.execute('''
-            SELECT url FROM urls 
+            SELECT url, source_name, priority, discovered_at FROM urls 
             WHERE (status = 'PENDING' OR (status = 'PROCESSING' AND datetime(processed_at) < datetime('now', ?)))
               AND retry_count < ?
             ORDER BY priority DESC, discovered_at ASC
             LIMIT ?
-        ''', (f'-{PROCESSING_STALE_HOURS} hour', MAX_RETRIES, chunk_size))
+        ''', (f'-{PROCESSING_STALE_HOURS} hour', MAX_RETRIES, lookahead_limit))
         rows = cursor.fetchall()
-        urls = [r[0] for r in rows]
+        if SCRAPE_DIVERSITY_ENABLED:
+            urls = _select_diverse_pending_urls(rows, chunk_size)
+        else:
+            urls = [row[0] for row in rows[:chunk_size]]
         
         if urls:
             placeholders = ','.join(['?'] * len(urls))
@@ -1534,9 +1827,51 @@ def _print_top_ranked_urls(ranked_urls: Sequence[Tuple[str, int]], sample_size: 
 
 def _source_map_budget(source: Dict[str, Any]) -> int:
     configured = source.get("max_urls")
-    if isinstance(configured, int) and configured > 0:
-        return configured
-    return MAX_URLS_PER_SOURCE
+    budget = configured if isinstance(configured, int) and configured > 0 else MAX_URLS_PER_SOURCE
+    if DIVERSITY_MODE_ENABLED:
+        source_cap = source.get("diversity_max_urls")
+        resolved_cap = (
+            int(source_cap)
+            if isinstance(source_cap, int) and source_cap > 0
+            else DIVERSITY_SOURCE_URL_CAP
+        )
+        if resolved_cap > 0:
+            budget = min(budget, resolved_cap)
+    return max(1, budget)
+
+def _order_sources_for_diversity(
+    sources: Sequence[Dict[str, Any]],
+    coverage: Dict[str, Dict[str, Any]],
+) -> List[Dict[str, Any]]:
+    ranked = sorted(
+        sources,
+        key=lambda source: (-_source_deficit_score(source, coverage), source.get("name", "")),
+    )
+    if not DIVERSITY_SPREAD_SOURCES:
+        return ranked
+
+    queues: Dict[str, List[Dict[str, Any]]] = {}
+    host_order: List[str] = []
+    for source in ranked:
+        host = _source_host(source.get("url", "")) or source.get("name", "")
+        if host not in queues:
+            queues[host] = []
+            host_order.append(host)
+        queues[host].append(source)
+
+    ordered: List[Dict[str, Any]] = []
+    active_hosts = list(host_order)
+    while active_hosts:
+        next_hosts: List[str] = []
+        for host in active_hosts:
+            queue = queues.get(host, [])
+            if not queue:
+                continue
+            ordered.append(queue.pop(0))
+            if queue:
+                next_hosts.append(host)
+        active_hosts = next_hosts
+    return ordered
 
 def _seed_probe_metrics(
     source: Dict[str, Any],
@@ -2416,7 +2751,12 @@ def map_sources(app):
             continue
         seen_seed_urls.add(canonical)
         deduped_sources.append(source)
-    active_sources = deduped_sources
+    active_sources = _order_sources_for_diversity(deduped_sources, coverage)
+    if DIVERSITY_MODE_ENABLED:
+        print(
+            f"Diversity mode active: source_url_cap={DIVERSITY_SOURCE_URL_CAP}, "
+            f"spread_sources={DIVERSITY_SPREAD_SOURCES}, scrape_interleave={SCRAPE_DIVERSITY_ENABLED}"
+        )
 
     for index, source in enumerate(active_sources):
         added, selected = map_single_source(app, source)
