@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sqlite3
 from pathlib import Path
 from types import SimpleNamespace
@@ -51,12 +52,19 @@ def test_canonicalize_url_collapses_thread_pagination_and_post_links() -> None:
     assert canonical_page == "https://forums.phoenixrising.me/threads/topic-name.12345"
     assert canonical_post == "https://forums.phoenixrising.me/threads/topic-name.12345"
 
+def test_canonicalize_url_collapses_healingwell_thread_page_query() -> None:
+    canonical = CRAWL_MODULE._canonicalize_url(
+        "https://www.healingwell.com/community/default.aspx?f=15&m=2039099&p=4"
+    )
+    assert canonical == "https://www.healingwell.com/community/default.aspx?f=15&m=2039099"
+
 def test_rank_candidate_urls_prefers_story_pages_and_filters_low_signal() -> None:
     source = CRAWL_MODULE.SOURCES[0]
     ranked = CRAWL_MODULE._rank_candidate_urls(
         [
             "https://www.s4me.info/login/",
             "https://www.s4me.info/members/user.1/",
+            "https://www.s4me.info/forums/some-subforum.44/",
             "https://www.s4me.info/threads/my-me-cfs-story.555/",
         ],
         source,
@@ -65,6 +73,7 @@ def test_rank_candidate_urls_prefers_story_pages_and_filters_low_signal() -> Non
     assert "https://www.s4me.info/threads/my-me-cfs-story.555" in urls
     assert all("login" not in url for url in urls)
     assert all("/members/" not in url for url in urls)
+    assert all("/forums/" not in url for url in urls)
 
 def test_hard_deny_tokens_force_low_score() -> None:
     source = CRAWL_MODULE.SOURCES[0]
@@ -283,3 +292,125 @@ def test_apply_seed_fallback_filters_marks_forum_seed_rows_failed(tmp_path: Path
     assert row is not None
     assert row[0] == "FAILED"
     assert row[1] == CRAWL_MODULE.MAX_RETRIES
+
+def test_seed_probe_decision_for_forum_requires_count_and_ratio() -> None:
+    source = {"url": "https://forums.example.org/forums/stories.1/"}
+    recommended_low_count, _reason = CRAWL_MODULE._decide_seed_probe_recommendation(
+        source, high_signal_count=1, high_signal_ratio=0.9, seed_score=10
+    )
+    recommended_low_ratio, _reason = CRAWL_MODULE._decide_seed_probe_recommendation(
+        source, high_signal_count=10, high_signal_ratio=0.01, seed_score=10
+    )
+    recommended_good, _reason = CRAWL_MODULE._decide_seed_probe_recommendation(
+        source, high_signal_count=10, high_signal_ratio=0.2, seed_score=10
+    )
+
+    assert recommended_low_count is False
+    assert recommended_low_ratio is False
+    assert recommended_good is True
+
+def test_seed_probe_decision_for_non_forum_allows_seed_score() -> None:
+    source = {"url": "https://example.org/condition/overview", "min_score": 12}
+    recommended_from_score, _reason = CRAWL_MODULE._decide_seed_probe_recommendation(
+        source, high_signal_count=0, high_signal_ratio=0.0, seed_score=13
+    )
+    rejected, _reason = CRAWL_MODULE._decide_seed_probe_recommendation(
+        source, high_signal_count=0, high_signal_ratio=0.0, seed_score=8
+    )
+
+    assert recommended_from_score is True
+    assert rejected is False
+
+def test_seed_probe_decision_respects_force_include() -> None:
+    source = {"url": "https://forums.example.org/forums/stories.1/", "seed_probe_force_include": True}
+    recommended, reason = CRAWL_MODULE._decide_seed_probe_recommendation(
+        source, high_signal_count=0, high_signal_ratio=0.0, seed_score=-100
+    )
+    assert recommended is True
+    assert "force_include" in reason
+
+def test_auth_error_marker_detection() -> None:
+    assert CRAWL_MODULE._looks_like_auth_error("Unauthorized: Invalid token") is True
+    assert CRAWL_MODULE._looks_like_auth_error("HTTP 401 from Firecrawl") is True
+    assert CRAWL_MODULE._looks_like_auth_error("NameResolutionError") is False
+
+def test_filter_sources_by_condition_quotas_prioritizes_unmet_conditions(tmp_path: Path) -> None:
+    db_path = tmp_path / "crawl_state.db"
+    data_dir = tmp_path / "scraped"
+    rejected_dir = tmp_path / "scraped_rejected"
+    CRAWL_MODULE.DB_PATH = db_path
+    CRAWL_MODULE.DATA_DIR = data_dir
+    CRAWL_MODULE.REJECTED_DIR = rejected_dir
+
+    CRAWL_MODULE.ensure_directories()
+    CRAWL_MODULE.init_db()
+
+    source_a = {"name": "A", "url": "https://example.org/a", "condition_tags": ["cond_a"]}
+    source_b = {"name": "B", "url": "https://example.org/b", "condition_tags": ["cond_b"]}
+    CRAWL_MODULE.SOURCES = [source_a, source_b]
+    CRAWL_MODULE.CONDITION_TARGETS = {
+        "cond_a": {"label": "Condition A", "target_completed_pages": 2, "target_cases": 0},
+        "cond_b": {"label": "Condition B", "target_completed_pages": 1, "target_cases": 0},
+    }
+
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO urls (url, source_name, status, retry_count, priority) VALUES (?, ?, ?, ?, ?)",
+        ("https://example.org/b/thread-1", "B", "COMPLETED", 0, 10),
+    )
+    conn.commit()
+    conn.close()
+
+    selected, skipped, coverage = CRAWL_MODULE._filter_sources_by_condition_quotas([source_a, source_b])
+    selected_names = [source["name"] for source in selected]
+    skipped_names = [source["name"] for source in skipped]
+
+    assert selected_names == ["A"]
+    assert skipped_names == ["B"]
+    assert coverage["cond_a"]["pages_deficit"] == 2
+    assert coverage["cond_b"]["pages_deficit"] == 0
+
+def test_condition_keywords_include_suffering_axes_terms() -> None:
+    CRAWL_MODULE.CONDITION_TARGETS = {
+        "cond_x": {
+            "label": "Condition X",
+            "url_keywords": ["condition-x"],
+            "suffering_axes": ["brain fog", "care burden"],
+        }
+    }
+
+    keywords = CRAWL_MODULE._condition_keywords("cond_x")
+    assert "condition-x" in keywords
+    assert "brain fog" in keywords
+    assert "care burden" in keywords
+
+def test_source_map_delay_seconds_prefers_known_forum_hosts() -> None:
+    CRAWL_MODULE.MAP_DELAY_SECONDS = 2.0
+    source = {"url": "https://www.healingwell.com/community/default.aspx?f=15"}
+    delay = CRAWL_MODULE._source_map_delay_seconds(source)
+    assert delay <= 0.75
+
+def test_load_source_registry_reads_disease_list_seed_urls(tmp_path: Path) -> None:
+    registry_path = tmp_path / "source_registry.json"
+    payload = {
+        "condition_targets": CRAWL_MODULE.DEFAULT_CONDITION_TARGETS,
+        "sources": CRAWL_MODULE.DEFAULT_SOURCES[:1],
+        "disease_list_seed_urls": [
+            "https://example.org/conditions/?utm_source=test",
+            "https://example.org/conditions/",
+            "invalid-url",
+        ],
+    }
+    registry_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    CRAWL_MODULE.load_source_registry(registry_path)
+    assert CRAWL_MODULE.DISEASE_LIST_SEED_URLS == ["https://example.org/conditions"]
+
+def test_host_matches_seed_hosts_supports_subdomains() -> None:
+    assert CRAWL_MODULE._host_matches_seed_hosts("health.healingwell.com", ["healingwell.com"]) is True
+    assert CRAWL_MODULE._host_matches_seed_hosts("example.org", ["healingwell.com"]) is False
+
+def test_discovery_junk_filter_blocks_known_noise() -> None:
+    assert CRAWL_MODULE._looks_like_discovery_junk("https://google.com/recaptcha/admin/migrate") is True
+    assert CRAWL_MODULE._looks_like_discovery_junk("https://forums.phoenixrising.me/forums/-/index.rss") is True
+    assert CRAWL_MODULE._looks_like_discovery_junk("https://forums.phoenixrising.me/forums/symptoms.31/") is False

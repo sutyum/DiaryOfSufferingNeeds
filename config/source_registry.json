@@ -1,0 +1,1133 @@
+{
+  "version": 1,
+  "notes": "Source registry for crawl seeds. Sources carry condition tags. Condition targets define coverage quotas.",
+  "disease_list_seed_urls": [
+    "https://www.healingwell.com/conditions/",
+    "https://community.patient.info/tags"
+  ],
+  "condition_targets": {
+    "me_cfs": {
+      "label": "ME/CFS",
+      "target_completed_pages": 180,
+      "target_cases": 700,
+      "seed_queries": [
+        "me/cfs patient stories forum",
+        "myalgic encephalomyelitis lived experience"
+      ],
+      "seed_domains": [
+        "forums.phoenixrising.me",
+        "www.healingwell.com",
+        "community.patient.info"
+      ],
+      "url_keywords": [
+        "me-cfs",
+        "chronic-fatigue",
+        "fatigue",
+        "post-viral"
+      ],
+      "suffering_axes": [
+        "fatigue",
+        "post-exertional malaise",
+        "cognitive load",
+        "care burden"
+      ]
+    },
+    "long_covid": {
+      "label": "Long COVID",
+      "target_completed_pages": 140,
+      "target_cases": 500,
+      "seed_queries": [
+        "long covid patient stories forum",
+        "post covid syndrome lived experience"
+      ],
+      "seed_domains": [
+        "community.patient.info",
+        "healthtalk.org",
+        "forums.phoenixrising.me"
+      ],
+      "url_keywords": [
+        "long-covid",
+        "post-covid",
+        "covid"
+      ],
+      "suffering_axes": [
+        "breathlessness",
+        "fatigue",
+        "work loss",
+        "uncertain recovery"
+      ]
+    },
+    "chronic_pain": {
+      "label": "Chronic Pain",
+      "target_completed_pages": 160,
+      "target_cases": 600,
+      "seed_queries": [
+        "chronic pain forum patient stories",
+        "neuropathic pain lived experience"
+      ],
+      "seed_domains": [
+        "www.healingwell.com",
+        "healthtalk.org"
+      ],
+      "url_keywords": [
+        "pain",
+        "chronic-pain",
+        "neuropath",
+        "fibromyalgia"
+      ],
+      "suffering_axes": [
+        "pain flare",
+        "sleep disruption",
+        "mobility",
+        "opioid tradeoffs"
+      ]
+    },
+    "fibromyalgia": {
+      "label": "Fibromyalgia",
+      "target_completed_pages": 120,
+      "target_cases": 450,
+      "seed_queries": [
+        "fibromyalgia patient forum story",
+        "fibromyalgia daily life thread"
+      ],
+      "seed_domains": [
+        "www.healingwell.com",
+        "community.patient.info"
+      ],
+      "url_keywords": [
+        "fibromyalgia",
+        "fibro"
+      ],
+      "suffering_axes": [
+        "pain",
+        "fatigue",
+        "brain fog",
+        "social invisibility"
+      ]
+    },
+    "dysautonomia": {
+      "label": "Dysautonomia / POTS",
+      "target_completed_pages": 120,
+      "target_cases": 450,
+      "seed_queries": [
+        "pots dysautonomia patient forum",
+        "orthostatic intolerance lived experience"
+      ],
+      "seed_domains": [
+        "forums.phoenixrising.me",
+        "www.healingwell.com"
+      ],
+      "url_keywords": [
+        "dysautonomia",
+        "pots",
+        "orthostatic"
+      ],
+      "suffering_axes": [
+        "orthostatic symptoms",
+        "heart rate instability",
+        "exercise intolerance"
+      ]
+    },
+    "connective_tissue": {
+      "label": "Connective Tissue Disorders",
+      "target_completed_pages": 100,
+      "target_cases": 350,
+      "seed_queries": [
+        "ehlers danlos patient story",
+        "hypermobility syndrome lived experience"
+      ],
+      "seed_domains": [
+        "www.ehlers-danlos.com",
+        "forums.phoenixrising.me"
+      ],
+      "url_keywords": [
+        "ehlers",
+        "danlos",
+        "hypermobility",
+        "connective"
+      ],
+      "suffering_axes": [
+        "joint instability",
+        "chronic pain",
+        "diagnostic delay"
+      ]
+    },
+    "antidepressant_withdrawal": {
+      "label": "Antidepressant Withdrawal",
+      "target_completed_pages": 180,
+      "target_cases": 700,
+      "seed_queries": [
+        "antidepressant withdrawal forum",
+        "ssri taper lived experience"
+      ],
+      "seed_domains": [
+        "www.survivingantidepressants.org"
+      ],
+      "url_keywords": [
+        "withdrawal",
+        "taper",
+        "ssri",
+        "snri",
+        "topic"
+      ],
+      "suffering_axes": [
+        "withdrawal symptoms",
+        "taper strategy",
+        "relapse fear"
+      ]
+    },
+    "mental_health": {
+      "label": "Mental Health",
+      "target_completed_pages": 140,
+      "target_cases": 500,
+      "seed_queries": [
+        "depression anxiety forum patient stories",
+        "mental health lived experience forum"
+      ],
+      "seed_domains": [
+        "www.healingwell.com",
+        "community.patient.info"
+      ],
+      "url_keywords": [
+        "depression",
+        "anxiety",
+        "panic",
+        "mental-health"
+      ],
+      "suffering_axes": [
+        "anxiety",
+        "depression",
+        "social isolation",
+        "care access"
+      ]
+    },
+    "autoimmune": {
+      "label": "Autoimmune Conditions",
+      "target_completed_pages": 160,
+      "target_cases": 550,
+      "seed_queries": [
+        "lupus rheumatoid arthritis patient forum",
+        "autoimmune disease lived experience"
+      ],
+      "seed_domains": [
+        "www.healingwell.com",
+        "community.patient.info"
+      ],
+      "url_keywords": [
+        "lupus",
+        "arthritis",
+        "autoimmune",
+        "crohn",
+        "colitis",
+        "ms"
+      ],
+      "suffering_axes": [
+        "flare cycles",
+        "medication side effects",
+        "diagnostic burden"
+      ]
+    },
+    "gastrointestinal": {
+      "label": "Gastrointestinal Conditions",
+      "target_completed_pages": 150,
+      "target_cases": 500,
+      "seed_queries": [
+        "ibs crohn colitis patient forum stories",
+        "gastrointestinal chronic illness experiences"
+      ],
+      "seed_domains": [
+        "www.healingwell.com",
+        "community.patient.info"
+      ],
+      "url_keywords": [
+        "ibs",
+        "crohn",
+        "colitis",
+        "gastro",
+        "gerd"
+      ],
+      "suffering_axes": [
+        "food restriction",
+        "pain",
+        "urgency",
+        "social disruption"
+      ]
+    },
+    "neurological": {
+      "label": "Neurological Conditions",
+      "target_completed_pages": 130,
+      "target_cases": 450,
+      "seed_queries": [
+        "multiple sclerosis migraine patient forum",
+        "neurological chronic illness stories"
+      ],
+      "seed_domains": [
+        "www.healingwell.com",
+        "community.patient.info",
+        "forums.phoenixrising.me"
+      ],
+      "url_keywords": [
+        "multiple-sclerosis",
+        "migraine",
+        "neurolog",
+        "ms"
+      ],
+      "suffering_axes": [
+        "cognitive symptoms",
+        "mobility",
+        "uncertain progression"
+      ]
+    },
+    "endocrine": {
+      "label": "Endocrine / Metabolic",
+      "target_completed_pages": 90,
+      "target_cases": 300,
+      "seed_queries": [
+        "diabetes forum patient stories",
+        "endocrine chronic illness lived experience"
+      ],
+      "seed_domains": [
+        "www.healingwell.com",
+        "community.patient.info"
+      ],
+      "url_keywords": [
+        "diabetes",
+        "glucose",
+        "endocrine"
+      ],
+      "suffering_axes": [
+        "monitoring burden",
+        "diet constraints",
+        "complication anxiety"
+      ]
+    },
+    "post_viral": {
+      "label": "Post-viral Syndromes",
+      "target_completed_pages": 120,
+      "target_cases": 420,
+      "seed_queries": [
+        "post viral syndrome patient stories",
+        "viral onset chronic illness forum"
+      ],
+      "seed_domains": [
+        "forums.phoenixrising.me",
+        "www.healingwell.com",
+        "community.patient.info"
+      ],
+      "url_keywords": [
+        "post-viral",
+        "viral",
+        "fatigue",
+        "long-covid"
+      ],
+      "suffering_axes": [
+        "viral trigger",
+        "relapse cycles",
+        "uncertain prognosis"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "name": "Science for ME - Patient Experiences",
+      "url": "https://www.s4me.info/forums/patient-experiences-and-stories.18/",
+      "queries": [
+        "patient stories",
+        "threads",
+        "experiences"
+      ],
+      "allow_tokens": [
+        "threads",
+        "experiences",
+        "stories",
+        "patients"
+      ],
+      "prefer_tokens": [
+        "/threads/"
+      ],
+      "deny_tokens": [
+        "news-in-brief",
+        "whats-new",
+        "dismiss-notice",
+        "/help/"
+      ],
+      "hard_deny_tokens": [
+        "news-in-brief",
+        "whats-new",
+        "dismiss-notice"
+      ],
+      "condition_tags": [
+        "me_cfs"
+      ],
+      "enabled": false,
+      "disabled_reason": "Login wall for anonymous users (verified 2026-02-22)."
+    },
+    {
+      "name": "Science for ME - ME/CFS Coping & Management",
+      "url": "https://www.s4me.info/forums/me-cfs-coping-management.8/",
+      "queries": [
+        "coping",
+        "thread",
+        "management"
+      ],
+      "allow_tokens": [
+        "threads",
+        "coping",
+        "management",
+        "me-cfs"
+      ],
+      "prefer_tokens": [
+        "/threads/"
+      ],
+      "deny_tokens": [
+        "news-in-brief",
+        "whats-new",
+        "dismiss-notice",
+        "/help/"
+      ],
+      "hard_deny_tokens": [
+        "news-in-brief",
+        "whats-new",
+        "dismiss-notice"
+      ],
+      "condition_tags": [
+        "me_cfs"
+      ],
+      "enabled": false,
+      "disabled_reason": "404 forum endpoint (verified 2026-02-22)."
+    },
+    {
+      "name": "Phoenix Rising - Disease Onset & Progression",
+      "url": "https://forums.phoenixrising.me/forums/disease-onset-and-progression.254/",
+      "queries": [
+        "patient story",
+        "disease onset",
+        "progression"
+      ],
+      "allow_tokens": [
+        "threads",
+        "disease-onset",
+        "progression",
+        "patient",
+        "story"
+      ],
+      "prefer_tokens": [
+        "/threads/"
+      ],
+      "condition_tags": [
+        "me_cfs",
+        "post_viral",
+        "long_covid"
+      ],
+      "max_urls": 300
+    },
+    {
+      "name": "Phoenix Rising - Symptoms & Treatments",
+      "url": "https://forums.phoenixrising.me/forums/symptoms.31/",
+      "queries": [
+        "symptoms",
+        "treatments",
+        "thread"
+      ],
+      "allow_tokens": [
+        "threads",
+        "symptom",
+        "pain",
+        "dysautonomia",
+        "sleep",
+        "neurological"
+      ],
+      "prefer_tokens": [
+        "/threads/"
+      ],
+      "condition_tags": [
+        "me_cfs",
+        "chronic_pain",
+        "dysautonomia",
+        "neurological"
+      ],
+      "max_urls": 250
+    },
+    {
+      "name": "Phoenix Rising - Living With ME/CFS",
+      "url": "https://forums.phoenixrising.me/forums/living-with-me-cfs.108/",
+      "queries": [
+        "living with me/cfs",
+        "daily life",
+        "disability"
+      ],
+      "allow_tokens": [
+        "threads",
+        "living-with-me-cfs",
+        "disability",
+        "lifestyle",
+        "daily"
+      ],
+      "prefer_tokens": [
+        "/threads/"
+      ],
+      "condition_tags": [
+        "me_cfs",
+        "mental_health"
+      ],
+      "max_urls": 200
+    },
+    {
+      "name": "Healthtalk.org - Chronic Pain",
+      "url": "https://healthtalk.org/chronic-pain/overview",
+      "queries": [
+        "experiences",
+        "lived experience",
+        "story"
+      ],
+      "allow_tokens": [
+        "chronic-pain",
+        "experiences",
+        "living-with",
+        "interview"
+      ],
+      "prefer_tokens": [
+        "/experiences/",
+        "/interview/"
+      ],
+      "required_tokens": [
+        "chronic-pain"
+      ],
+      "condition_tags": [
+        "chronic_pain"
+      ],
+      "min_score": 12,
+      "max_urls": 200
+    },
+    {
+      "name": "Healthtalk.org - Long COVID",
+      "url": "https://healthtalk.org/long-covid/overview",
+      "queries": [
+        "experiences",
+        "lived experience",
+        "story"
+      ],
+      "allow_tokens": [
+        "long-covid",
+        "experiences",
+        "living-with",
+        "interview"
+      ],
+      "prefer_tokens": [
+        "/experiences/",
+        "/interview/"
+      ],
+      "required_tokens": [
+        "long-covid"
+      ],
+      "condition_tags": [
+        "long_covid",
+        "post_viral"
+      ],
+      "min_score": 12,
+      "max_urls": 200
+    },
+    {
+      "name": "Dysautonomia International - Patient Stories",
+      "url": "http://www.dysautonomiainternational.org/page.php?ID=14",
+      "queries": [
+        "patient stories",
+        "story",
+        "personal experience"
+      ],
+      "allow_tokens": [
+        "patient",
+        "story",
+        "dysautonomia",
+        "page.php"
+      ],
+      "prefer_tokens": [
+        "page.php?id=14",
+        "story"
+      ],
+      "min_score": 12,
+      "max_urls": 120,
+      "condition_tags": [
+        "dysautonomia"
+      ],
+      "enabled": false,
+      "disabled_reason": "Current endpoint maps mostly organizational pages, not patient narratives (verified 2026-02-22)."
+    },
+    {
+      "name": "Surviving Antidepressants - Introductions and Updates",
+      "url": "https://www.survivingantidepressants.org/forum/3-introductions-and-updates/",
+      "queries": [
+        "topic",
+        "introduction",
+        "experience"
+      ],
+      "allow_tokens": [
+        "topic",
+        "introductions",
+        "updates"
+      ],
+      "prefer_tokens": [
+        "/topic/"
+      ],
+      "condition_tags": [
+        "antidepressant_withdrawal",
+        "mental_health"
+      ]
+    },
+    {
+      "name": "Ehlers-Danlos Society - Our Stories",
+      "url": "https://www.ehlers-danlos.com/our-stories/",
+      "queries": [
+        "our stories",
+        "patient stories",
+        "journey"
+      ],
+      "allow_tokens": [
+        "our-stories",
+        "story",
+        "patient"
+      ],
+      "prefer_tokens": [
+        "/story/"
+      ],
+      "condition_tags": [
+        "connective_tissue",
+        "dysautonomia",
+        "chronic_pain"
+      ]
+    },
+    {
+      "name": "HealingWell - Chronic Fatigue Syndrome Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=15",
+      "queries": [
+        "chronic fatigue",
+        "daily life",
+        "symptoms"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=15",
+        "m=",
+        "fatigue",
+        "chronic"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=15"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "me_cfs",
+        "post_viral"
+      ],
+      "min_score": 8,
+      "max_urls": 220
+    },
+    {
+      "name": "HealingWell - Chronic Pain Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=16",
+      "queries": [
+        "chronic pain",
+        "symptoms",
+        "coping"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=16",
+        "m=",
+        "pain"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=16"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "chronic_pain"
+      ],
+      "min_score": 8,
+      "max_urls": 220
+    },
+    {
+      "name": "HealingWell - Fibromyalgia Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=24",
+      "queries": [
+        "fibromyalgia",
+        "pain",
+        "fatigue"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=24",
+        "m=",
+        "fibromyalgia",
+        "fibro"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=24"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "fibromyalgia",
+        "chronic_pain"
+      ],
+      "min_score": 8,
+      "max_urls": 220
+    },
+    {
+      "name": "HealingWell - Anxiety & Panic Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=9",
+      "queries": [
+        "anxiety",
+        "panic",
+        "daily functioning"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=9",
+        "m=",
+        "anxiety",
+        "panic"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=9"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "mental_health"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - Depression Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=19",
+      "queries": [
+        "depression",
+        "lived experience",
+        "daily struggle"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=19",
+        "m=",
+        "depression"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=19"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "mental_health"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - Lupus Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=29",
+      "queries": [
+        "lupus flare",
+        "symptoms",
+        "treatment"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=29",
+        "m=",
+        "lupus"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=29"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "autoimmune"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - Rheumatoid Arthritis Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=10",
+      "queries": [
+        "rheumatoid arthritis",
+        "flare",
+        "pain"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=10",
+        "m=",
+        "arthritis",
+        "ra"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=10"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "autoimmune",
+        "chronic_pain"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - IBS Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=26",
+      "queries": [
+        "ibs symptoms",
+        "diet",
+        "daily life"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=26",
+        "m=",
+        "ibs",
+        "bowel"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=26"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "gastrointestinal"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - Crohn's Disease Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=17",
+      "queries": [
+        "crohns flare",
+        "symptoms",
+        "treatment"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=17",
+        "m=",
+        "crohn"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=17"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "gastrointestinal",
+        "autoimmune"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - Ulcerative Colitis Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=38",
+      "queries": [
+        "ulcerative colitis",
+        "flare",
+        "symptoms"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=38",
+        "m=",
+        "colitis"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=38"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "gastrointestinal",
+        "autoimmune"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - Multiple Sclerosis Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=32",
+      "queries": [
+        "multiple sclerosis",
+        "symptoms",
+        "progression"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=32",
+        "m=",
+        "multiple-sclerosis",
+        "ms"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=32"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "neurological",
+        "autoimmune"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - Diabetes Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=20",
+      "queries": [
+        "diabetes management",
+        "glucose",
+        "daily life"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=20",
+        "m=",
+        "diabetes"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=20"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "endocrine"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    },
+    {
+      "name": "HealingWell - GERD & Acid Reflux Forum",
+      "url": "https://www.healingwell.com/community/default.aspx?f=45",
+      "queries": [
+        "gerd reflux",
+        "symptoms",
+        "lived experience"
+      ],
+      "allow_tokens": [
+        "default.aspx",
+        "f=45",
+        "m=",
+        "gerd",
+        "reflux"
+      ],
+      "prefer_tokens": [
+        "m="
+      ],
+      "deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "hard_deny_tokens": [
+        "profile.aspx",
+        "login.aspx",
+        "register.aspx",
+        "post.aspx"
+      ],
+      "required_tokens": [
+        "f=45"
+      ],
+      "require_story_like_urls": true,
+      "allow_seed_fallback": false,
+      "condition_tags": [
+        "gastrointestinal"
+      ],
+      "min_score": 8,
+      "max_urls": 200
+    }
+  ]
+}
